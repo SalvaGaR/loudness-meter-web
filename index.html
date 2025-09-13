@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Loudness Meter (EBU R128 / ITU-R BS.1770 aprox.)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>🔊 Loudness Meter (R128/BS.1770, aprox.)</h1>
+    <div class="actions">
+      <label class="file">
+        <input type="file" id="fileInput" accept="audio/*" />
+        <span>Subir archivo</span>
+      </label>
+      <button id="analyzeBtn" class="primary">Analizar</button>
+      <button id="liveBtn" class="secondary">Live (mic)</button>
+      <label class="toggle">
+        <input type="checkbox" id="darkToggle" />
+        <span>🌙</span>
+      </label>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <article class="card metric">
+        <h2>Integrated Loudness</h2>
+        <div class="value" id="lufsI">—</div>
+        <div class="unit">LUFS-I</div>
+        <p class="hint">Gate: abs −70 LUFS + rel −10 LU</p>
+      </article>
+
+      <article class="card metric">
+        <h2>Short-term</h2>
+        <div class="value" id="lufsS">—</div>
+        <div class="unit">LUFS-S (inst.)</div>
+        <div class="sub">Max: <span id="lufsSmax">—</span> @ <span id="tSmax">—</span></div>
+      </article>
+
+      <article class="card metric">
+        <h2>Momentary</h2>
+        <div class="value" id="lufsM">—</div>
+        <div class="unit">LUFS-M (inst.)</div>
+        <div class="sub">Max: <span id="lufsMmax">—</span> @ <span id="tMmax">—</span></div>
+      </article>
+
+      <article class="card metric">
+        <h2>Loudness Range</h2>
+        <div class="value" id="lra">—</div>
+        <div class="unit">LU</div>
+        <p class="hint">P10–P95 de LUFS-S (gate rel −20 LU)</p>
+      </article>
+
+      <article class="card metric">
+        <h2>True Peak</h2>
+        <div class="value" id="dbtp">—</div>
+        <div class="unit">dBTP</div>
+        <p class="hint">Oversampling 4× (cúbica)</p>
+      </article>
+
+      <article class="card metric">
+        <h2>Dynamics</h2>
+        <div class="value" id="plr">—</div>
+        <div class="unit">PLR = dBTP − LUFS-I</div>
+        <div class="sub">DR≈ (P95 − P5) S: <span id="dr">—</span> LU</div>
+      </article>
+    </section>
+
+    <section class="card charts">
+      <div class="chart-group">
+        <div class="chart">
+          <h3>Momentary (400 ms, hop 100 ms)</h3>
+          <canvas id="canvasM" width="1200" height="280" aria-label="Serie Momentary"></canvas>
+        </div>
+        <div class="chart">
+          <h3>Short-term (3 s, hop 100 ms)</h3>
+          <canvas id="canvasS" width="1200" height="280" aria-label="Serie Short-term"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="card logs">
+      <details>
+        <summary>Logs</summary>
+        <pre id="log"></pre>
+      </details>
+    </section>
+
+    <section class="card tests">
+      <h3>Tests (ejecutables desde la consola)</h3>
+      <ul>
+        <li><code>window.tests.silence()</code> – buffer de ceros (5 s)</li>
+        <li><code>window.tests.sine()</code> – seno 1 kHz, 3 s, amp 0.5</li>
+        <li><code>window.tests.noise()</code> – ruido blanco 5 s</li>
+        <li><code>window.tests.fade()</code> – “tema” sintético con fade in/out</li>
+      </ul>
+      <p>Los tests escriben OK/FAIL con detalles en la consola y aquí en “Logs”.</p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>
+      K-weighting aprox. con Biquad (HP ~60 Hz, HS ~4 kHz +4 dB).
+      Cálculo offline con <code>OfflineAudioContext</code>.
+      Live opcional con <code>AudioWorklet</code>.
+    </small>
+  </footer>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>

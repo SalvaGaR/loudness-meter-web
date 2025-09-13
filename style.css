@@ -1,0 +1,176 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1115;
+  --fg: #e6e7ea;
+  --muted: #a9acb2;
+  --card: #171a21;
+  --card-border: #242833;
+  --accent: #5aa9e6;
+  --accent-strong: #2d8fe2;
+  --ok: #39d98a;
+  --warn: #ffcf5c;
+  --err: #ff6b6b;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f8fb;
+    --fg: #111;
+    --muted: #555;
+    --card: #fff;
+    --card-border: #e7e9ef;
+    --accent: #2563eb;
+    --accent-strong: #1d4ed8;
+    --ok: #128c7e;
+    --warn: #b45309;
+    --err: #b91c1c;
+    --shadow: 0 10px 25px rgba(0,0,0,.08);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.4;
+}
+
+.app-header, .app-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.app-header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.actions .file input {
+  display: none;
+}
+.actions .file span {
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+button.primary, button.secondary {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--shadow);
+}
+button.secondary {
+  background: transparent;
+  color: var(--fg);
+}
+
+.toggle input { display: none; }
+.toggle span {
+  display: inline-block;
+  padding: 8px 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--card);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 20px 32px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.metric h2 {
+  font-size: 0.95rem;
+  margin: 0 0 6px;
+}
+.metric .value {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.metric .unit {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.metric .sub {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.metric .hint {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.charts .chart-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.chart h3 {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
+  border: 1px dashed var(--card-border);
+}
+
+.logs pre {
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.app-footer {
+  color: var(--muted);
+  justify-content: center;
+}
